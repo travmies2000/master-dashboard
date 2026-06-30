@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <title>Master Dashboard</title>
 </head>
 <body class="bg-gray-100 min-h-screen p-4 md:p-8">
@@ -14,12 +17,23 @@
         </div>
 
         <div id="tasks">
+            <select id="prompt-select" onchange="loadTemplate()" class="w-full p-2 border rounded mb-2 bg-gray-50">
+                <option value="">Select a Workflow Template...</option>
+                <option value="Summarize the urgency of these emails and categorize them by action required: ">Email Triage</option>
+                <option value="Analyze this lead based on the 3-step scoring matrix: ">Lead Scorer</option>
+                <option value="Repurpose this content into a professional LinkedIn post: ">Content Repurposer</option>
+            </select>
             <textarea id="prompt-input" class="w-full h-32 p-3 border rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="Paste workflow task..."></textarea>
             <button id="run-btn" onclick="runAgent()" class="w-full bg-green-600 text-white py-3 rounded-lg mt-2 font-semibold hover:bg-green-700">Run Automation</button>
         </div>
 
-        <div id="output" class="mt-6 p-4 bg-gray-50 border rounded-lg min-h-[100px] text-gray-700">
+        <div id="output" class="mt-6 p-4 bg-gray-50 border rounded-lg min-h-[100px] text-gray-700 prose">
             <em>Result will appear here...</em>
+        </div>
+
+        <div id="history" class="mt-8 border-t pt-4">
+            <h2 class="font-bold text-gray-700">Recent History</h2>
+            <ul id="history-list" class="text-sm text-gray-500 list-disc pl-5 mt-2"></ul>
         </div>
     </div>
     <script src="script.js"></script>
