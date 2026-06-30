@@ -11,11 +11,13 @@
     <div class="max-w-2xl mx-auto bg-white p-6 rounded-xl shadow-lg">
         <h1 class="text-2xl font-bold mb-4 text-gray-800">Master Dashboard</h1>
         
+        <!-- API Settings -->
         <div id="settings" class="mb-6 flex gap-2">
             <input type="password" id="api-key" class="border p-2 rounded flex-grow" placeholder="Enter OpenAI API Key">
             <button onclick="saveKey()" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Save</button>
         </div>
 
+        <!-- Command Center -->
         <div id="tasks">
             <select id="prompt-select" onchange="loadTemplate()" class="w-full p-2 border rounded mb-2 bg-gray-50">
                 <option value="">Select a Workflow Template...</option>
@@ -27,10 +29,12 @@
             <button id="run-btn" onclick="runAgent()" class="w-full bg-green-600 text-white py-3 rounded-lg mt-2 font-semibold hover:bg-green-700">Run Automation</button>
         </div>
 
+        <!-- Output -->
         <div id="output" class="mt-6 p-4 bg-gray-50 border rounded-lg min-h-[100px] text-gray-700 prose">
             <em>Result will appear here...</em>
         </div>
 
+        <!-- History -->
         <div id="history" class="mt-8 border-t pt-4">
             <h2 class="font-bold text-gray-700">Recent History</h2>
             <ul id="history-list" class="text-sm text-gray-500 list-disc pl-5 mt-2"></ul>
