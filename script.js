@@ -25,6 +25,8 @@ async function runAgent() {
     const btn = document.getElementById('run-btn');
     const input = document.getElementById('prompt-input').value;
     const apiKey = localStorage.getItem('openai_key');
+    const promptSelect = document.getElementById('prompt-select');
+    const taskType = promptSelect.options[promptSelect.selectedIndex].text;
 
     if (!apiKey) return alert("Please save your API key first!");
 
@@ -50,11 +52,16 @@ async function runAgent() {
         
         outputDiv.innerHTML = marked.parse(result);
         
-        // Log to Make.com Webhook
+        // Log to Make.com Webhook with mapped headers
         await fetch('YOUR_MAKE_WEBHOOK_URL', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ timestamp: new Date().toISOString(), input: input, output: result })
+            body: JSON.stringify({
+                Timestamp: new Date().toLocaleString(), // Column A
+                Task_Type: taskType,                     // Column B
+                Input_Data: input,                       // Column C
+                AI_Output: result                        // Column D
+            })
         }).catch(err => console.error("Logging to sheet failed:", err));
         
         let history = JSON.parse(localStorage.getItem('agent_history') || '[]');
