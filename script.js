@@ -1,4 +1,3 @@
-// Load saved key on startup
 window.onload = updateHistoryUI;
 
 function saveKey() {
@@ -24,21 +23,38 @@ async function runAgent() {
     outputDiv.innerHTML = '<div class="animate-pulse">Agent is thinking...</div>';
 
     try {
+        // 1. Get AI Response
         const response = await fetch('https://api.openai.com/v1/chat/completions', {
             method: 'POST',
             headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 model: "gpt-4o",
-                messages: [{ role: "user", content: input }]
+                messages: [
+                    { role: "system", content: "You are an expert business assistant. Provide professional, structured output." },
+                    { role: "user", content: input }
+                ]
             })
         });
 
         const data = await response.json();
         const result = data.choices[0].message.content;
         
+        // 2. Render Output
         outputDiv.innerHTML = marked.parse(result);
         
-        // Save to History
+        // 3. Persist to Google Sheets (Make.com Webhook)
+        // Replace 'YOUR_MAKE_WEBHOOK_URL' with your actual Make.com URL
+        await fetch('YOUR_MAKE_WEBHOOK_URL', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                timestamp: new Date().toISOString(),
+                input: input,
+                output: result
+            })
+        }).catch(err => console.error("Logging to sheet failed:", err));
+        
+        // 4. Update History
         let history = JSON.parse(localStorage.getItem('agent_history') || '[]');
         history.unshift(result.substring(0, 50) + "...");
         if (history.length > 5) history.pop();
