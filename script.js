@@ -10,7 +10,6 @@ function loadTemplate() {
     document.getElementById('prompt-input').value = document.getElementById('prompt-select').value;
 }
 
-// NEW: Export Output to File
 function downloadOutput() {
     const text = document.getElementById('output').innerText;
     const blob = new Blob([text], { type: 'text/markdown' });
@@ -58,7 +57,7 @@ async function runAgent() {
             body: JSON.stringify({ timestamp: new Date().toISOString(), input: input, output: result })
         }).catch(err => console.error("Logging to sheet failed:", err));
         
-        // Save to Local Storage History
+        // Save to History
         let history = JSON.parse(localStorage.getItem('agent_history') || '[]');
         history.unshift(result.substring(0, 50) + "...");
         if (history.length > 5) history.pop();
