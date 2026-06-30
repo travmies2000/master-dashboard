@@ -29,9 +29,15 @@
             <button id="run-btn" onclick="runAgent()" class="w-full bg-green-600 text-white py-3 rounded-lg mt-2 font-semibold hover:bg-green-700">Run Automation</button>
         </div>
 
-        <!-- Output -->
-        <div id="output" class="mt-6 p-4 bg-gray-50 border rounded-lg min-h-[100px] text-gray-700 prose">
-            <em>Result will appear here...</em>
+        <!-- Output Area with Download -->
+        <div class="mt-6">
+            <div class="flex justify-between items-center mb-2">
+                <h2 class="font-bold text-gray-700">Result</h2>
+                <button onclick="downloadOutput()" class="text-xs bg-gray-200 px-2 py-1 rounded hover:bg-gray-300">Download .md</button>
+            </div>
+            <div id="output" class="p-4 bg-gray-50 border rounded-lg min-h-[100px] text-gray-700 prose">
+                <em>Result will appear here...</em>
+            </div>
         </div>
 
         <!-- History -->
