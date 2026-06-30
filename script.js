@@ -1,12 +1,24 @@
+// Load saved key on startup
+window.onload = updateHistoryUI;
+
+function saveKey() {
+    const key = document.getElementById('api-key').value;
+    localStorage.setItem('openai_key', key);
+    alert('API Key saved securely to your browser.');
+}
+
+function loadTemplate() {
+    document.getElementById('prompt-input').value = document.getElementById('prompt-select').value;
+}
+
 async function runAgent() {
     const outputDiv = document.getElementById('output');
     const btn = document.getElementById('run-btn');
     const input = document.getElementById('prompt-input').value;
     const apiKey = localStorage.getItem('openai_key');
 
-    if (!apiKey) return alert("Save your API key first!");
+    if (!apiKey) return alert("Please save your API key first!");
 
-    // Set Loading State
     btn.disabled = true;
     btn.innerText = "Processing...";
     outputDiv.innerHTML = '<div class="animate-pulse">Agent is thinking...</div>';
@@ -22,12 +34,26 @@ async function runAgent() {
         });
 
         const data = await response.json();
-        outputDiv.innerText = data.choices[0].message.content;
+        const result = data.choices[0].message.content;
+        
+        outputDiv.innerHTML = marked.parse(result);
+        
+        // Save to History
+        let history = JSON.parse(localStorage.getItem('agent_history') || '[]');
+        history.unshift(result.substring(0, 50) + "...");
+        if (history.length > 5) history.pop();
+        localStorage.setItem('agent_history', JSON.stringify(history));
+        updateHistoryUI();
+        
     } catch (err) {
         outputDiv.innerText = "Error: Check your connection or API key.";
     } finally {
-        // Reset Button
         btn.disabled = false;
         btn.innerText = "Run Automation";
     }
+}
+
+function updateHistoryUI() {
+    const history = JSON.parse(localStorage.getItem('agent_history') || '[]');
+    document.getElementById('history-list').innerHTML = history.map(item => `<li>${item}</li>`).join('');
 }
