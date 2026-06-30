@@ -50,14 +50,13 @@ async function runAgent() {
         
         outputDiv.innerHTML = marked.parse(result);
         
-        // Log to Make.com/Google Sheets
+        // Log to Make.com Webhook
         await fetch('YOUR_MAKE_WEBHOOK_URL', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ timestamp: new Date().toISOString(), input: input, output: result })
         }).catch(err => console.error("Logging to sheet failed:", err));
         
-        // Save to History
         let history = JSON.parse(localStorage.getItem('agent_history') || '[]');
         history.unshift(result.substring(0, 50) + "...");
         if (history.length > 5) history.pop();
