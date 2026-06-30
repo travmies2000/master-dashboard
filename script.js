@@ -52,15 +52,14 @@ async function runAgent() {
         
         outputDiv.innerHTML = marked.parse(result);
         
-        // Log to Make.com Webhook with mapped headers
         await fetch('YOUR_MAKE_WEBHOOK_URL', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                Timestamp: new Date().toLocaleString(), // Column A
-                Task_Type: taskType,                     // Column B
-                Input_Data: input,                       // Column C
-                AI_Output: result                        // Column D
+                Timestamp: new Date().toLocaleString(),
+                Task_Type: taskType,
+                Input_Data: input,
+                AI_Output: result
             })
         }).catch(err => console.error("Logging to sheet failed:", err));
         
