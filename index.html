@@ -1,23 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
     <title>Master Dashboard</title>
 </head>
-<body>
-    <div id="app">
-        <h1>Master Dashboard</h1>
+<body class="bg-gray-100 min-h-screen p-4 md:p-8">
+    <div class="max-w-2xl mx-auto bg-white p-6 rounded-xl shadow-lg">
+        <h1 class="text-2xl font-bold mb-4 text-gray-800">Master Dashboard</h1>
         
-        <section id="settings">
-            <input type="password" id="api-key" placeholder="Enter your OpenAI API Key">
-            <button onclick="saveKey()">Save Key</button>
-        </section>
+        <div id="settings" class="mb-6 flex gap-2">
+            <input type="password" id="api-key" class="border p-2 rounded flex-grow" placeholder="Enter OpenAI API Key">
+            <button onclick="saveKey()" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Save</button>
+        </div>
 
-        <section id="tasks">
-            <textarea id="prompt-input" placeholder="Paste your workflow task here..."></textarea>
-            <button onclick="runAgent()">Run Automation</button>
-            <div id="output"></div>
-        </section>
+        <div id="tasks">
+            <textarea id="prompt-input" class="w-full h-32 p-3 border rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="Paste workflow task..."></textarea>
+            <button id="run-btn" onclick="runAgent()" class="w-full bg-green-600 text-white py-3 rounded-lg mt-2 font-semibold hover:bg-green-700">Run Automation</button>
+        </div>
+
+        <div id="output" class="mt-6 p-4 bg-gray-50 border rounded-lg min-h-[100px] text-gray-700">
+            <em>Result will appear here...</em>
+        </div>
     </div>
     <script src="script.js"></script>
 </body>
